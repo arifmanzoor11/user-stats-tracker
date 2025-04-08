@@ -33,25 +33,3 @@ function uat_log_activity() {
     wp_send_json_success('Activity logged');
 }
 add_action('wp_ajax_uat_log_activity', 'uat_log_activity');
-
-// Add admin menu
-function ust_add_admin_menu() {
-    add_menu_page(
-        'User Stats Tracker',
-        'User Stats',
-        'manage_options',
-        'user-stats-tracker',
-        'ust_display_stats',
-        'dashicons-analytics',
-        3
-    );
-    add_submenu_page(
-        'user-stats-tracker',
-        'Settings',
-        'Settings',
-        'manage_options',
-        'ust-settings',
-        'ust_settings_page'
-    );
-}
-add_action('admin_menu', 'ust_add_admin_menu');

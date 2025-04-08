@@ -13,6 +13,10 @@
 - Tracks user activity on specified post types/pages.
 - Records time spent and navigation type for logged-in users.
 - Provides an admin panel interface to view detailed stats and manage settings.
+- Delete statistics with flexible options:
+  - Delete all statistics
+  - Delete statistics by specific user
+  - Delete statistics within a date range
 
 ---
 
@@ -59,10 +63,29 @@
 2. **View user stats** from the `User Activity Stats` section.
 3. Use the provided options to **filter user activity** based on post types/pages.
 
+### Managing Statistics
+- Navigate to User Stats > Delete Stats to manage stored statistics
+- Choose from multiple deletion options:
+  - Delete all statistics at once
+  - Delete statistics for specific users
+  - Delete statistics within a specific date range
+- Confirm deletion when prompted
+
 ---
 
 ## Support & Contributions
 For issues or contributions, contact me at [http://guitarchordslyrics.com](http://guitarchordslyrics.com).
+
+---
+
+## Changelog
+
+### 1.3.0
+- Added statistics deletion functionality
+- Added user-specific statistics removal
+- Added date range-based statistics removal
+- Improved security with nonce verification
+- Enhanced user interface for statistics management
 
 ---
 
