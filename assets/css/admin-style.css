@@ -1,0 +1,20 @@
+.performance-stats table {
+    margin-top: 20px;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+}
+
+.performance-stats table th {
+    width: 200px;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.performance-stats table td {
+    padding: 12px;
+}
+
+.form-table input[type="number"] {
+    width: 100px;
+}
