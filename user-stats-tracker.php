@@ -42,7 +42,7 @@ function ust_add_admin_menu() {
     add_menu_page(
         'User Stats Tracker',
         'User Stats',
-        'manage_options',
+        'edit_posts',
         'user-stats-tracker',
         'ust_display_stats',
         'dashicons-analytics',
@@ -54,7 +54,7 @@ function ust_add_admin_menu() {
         'user-stats-tracker',
         'Delete Stats',
         'Delete Stats',
-        'manage_options',
+        'edit_posts',
         'ust-delete-stats',
         'uat_delete_stats_page'
     );
