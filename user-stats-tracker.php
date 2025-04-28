@@ -2,7 +2,7 @@
 /*
 Plugin Name: Enhanced User Stats Tracker
 Description: Tracks user activity on selected post types/pages, including time spent and navigation type. Provides detailed stats and contact options in the admin panel.
-Version: 1.2
+Version: 1.3
 Author: Arif M.
 */
 
