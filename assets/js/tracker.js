@@ -14,40 +14,62 @@ jQuery(document).ready(function($) {
         }
     });
 
+    // Detect if user returns from another page
+    let navigationType = 'live';
+    if (performance && performance.navigation && performance.navigation.type === 2) {
+        navigationType = 'return';
+    }
+
+    // Capture tab close or exit
     $(window).on('beforeunload', function() {
         if (isRequestSent) return; // Prevent duplicate requests
 
         let endTime = Date.now();
         let duration = (endTime - startTime) / 1000; // Duration in seconds
-        let currentDateTime = new Date().toISOString(); // Current date and time in ISO format
+        let currentDateTime = new Date().toISOString();
 
-        $.post(uat_ajax.ajax_url, {
+        // Override with 'exit' if tab is closing
+        let navType = document.visibilityState === 'hidden' ? 'exit' : navigationType;
+
+        navigator.sendBeacon(uat_ajax.ajax_url, new URLSearchParams({
             action: 'uat_log_activity',
             user_id: uat_ajax.user_id,
-            page: window.location.href,
+            page_id: uat_ajax.post_id,
             duration: duration,
-            navigation_type: 'exit',
+            navigation_type: navType,
             date_time: currentDateTime,
             is_single: isSinglePost
-        });
+        }));
 
-        isRequestSent = true; // Set the flag to true after sending the request
+        isRequestSent = true;
     });
 
+    // Track periodic user activity
     function trackUserActivity() {
         clearTimeout(activityTimer);
-        
+
         const data = {
             action: 'ust_track_activity',
             page_url: window.location.href,
             scroll_depth: calculateScrollDepth(),
             active_time: getActiveTime()
         };
-        
+
         $.post(uat_ajax.ajax_url, data);
-        
         activityTimer = setTimeout(trackUserActivity, ACTIVITY_INTERVAL);
     }
 
     document.addEventListener('DOMContentLoaded', trackUserActivity);
+
+    // Scroll depth helper
+    function calculateScrollDepth() {
+        let scrollTop = $(window).scrollTop();
+        let docHeight = $(document).height() - $(window).height();
+        return docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+    }
+
+    // Active time helper
+    function getActiveTime() {
+        return Math.round((Date.now() - startTime) / 1000);
+    }
 });

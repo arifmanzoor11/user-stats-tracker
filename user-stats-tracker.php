@@ -1,12 +1,16 @@
 <?php
 /*
 Plugin Name: Enhanced User Stats Tracker
+Plugin URI: https://guitarchordslyrics.com
 Description: Tracks user activity on selected post types/pages, including time spent and navigation type. Provides detailed stats and contact options in the admin panel.
-Version: 1.3
+Version: 2.0
 Author: Arif M.
+Author URI: https://arifm.guitarchordslyrics.com
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: user-stats-tracker
 */
 
-// Prevent direct access
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -24,21 +28,20 @@ include_once(plugin_dir_path(__FILE__) . 'admin/delete-stats-page.php');
 
 function uat_enqueue_scripts() {
     if (is_user_logged_in() && !wp_script_is('uat-tracker', 'enqueued')) {
-        // Get the enabled post types
         $enabled_post_types = get_option('ust_enabled_post_types', []);
-
-        wp_enqueue_script('uat-tracker', plugin_dir_url(__FILE__) . 'assets/js/tracker.js', ['jquery'], '1.0', true);
+        wp_enqueue_script('uat-tracker', plugin_dir_url(__FILE__) . 'assets/js/tracker.js', ['jquery'], '2.0', true);
         wp_localize_script('uat-tracker', 'uat_ajax', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'user_id'  => get_current_user_id(),
+            'post_id' => get_the_ID(),
             'enabled_post_types' => $enabled_post_types,
         ]);
     }
 }
 add_action('wp_enqueue_scripts', 'uat_enqueue_scripts');
 
+
 function ust_add_admin_menu() {
-    // Add main menu
     add_menu_page(
         'User Stats Tracker',
         'User Stats',
@@ -49,7 +52,6 @@ function ust_add_admin_menu() {
         3
     );
 
-    // Add Delete Stats submenu
     add_submenu_page(
         'user-stats-tracker',
         'Delete Stats',
@@ -59,7 +61,6 @@ function ust_add_admin_menu() {
         'uat_delete_stats_page'
     );
 
-    // Add Settings submenu
     add_submenu_page(
         'user-stats-tracker',
         'Settings',
@@ -69,5 +70,4 @@ function ust_add_admin_menu() {
         'ust_settings_page'
     );
 }
-
 add_action('admin_menu', 'ust_add_admin_menu');
