@@ -3,7 +3,7 @@
 Plugin Name: Enhanced User Stats Tracker
 Plugin URI: https://guitarchordslyrics.com
 Description: Tracks user activity on selected post types/pages, including time spent and navigation type. Provides detailed stats and contact options in the admin panel.
-Version: 2.0
+Version: 2.3
 Author: Arif M.
 Author URI: https://arifm.guitarchordslyrics.com
 License: GPLv2 or later
@@ -29,16 +29,24 @@ include_once(plugin_dir_path(__FILE__) . 'admin/delete-stats-page.php');
 function uat_enqueue_scripts() {
     if (is_user_logged_in() && !wp_script_is('uat-tracker', 'enqueued')) {
         $enabled_post_types = get_option('ust_enabled_post_types', []);
-        wp_enqueue_script('uat-tracker', plugin_dir_url(__FILE__) . 'assets/js/tracker.js', ['jquery'], '2.0', true);
+        
+        $tracker_path = plugin_dir_path(__FILE__) . 'assets/js/tracker.js';
+        $tracker_version = filemtime($tracker_path);
+
+        $tracker_url = plugin_dir_url(__FILE__) . 'assets/js/tracker.js?v=' . $tracker_version . '&nocache=' . time();
+
+        wp_enqueue_script('uat-tracker', $tracker_url, ['jquery'], null, true);
+
         wp_localize_script('uat-tracker', 'uat_ajax', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'user_id'  => get_current_user_id(),
-            'post_id' => get_the_ID(),
+            'post_id'  => get_the_ID(),
             'enabled_post_types' => $enabled_post_types,
         ]);
     }
 }
 add_action('wp_enqueue_scripts', 'uat_enqueue_scripts');
+
 
 
 function ust_add_admin_menu() {
