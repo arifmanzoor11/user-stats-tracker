@@ -22,18 +22,18 @@ function ust_settings_page() {
     }
     echo '</select>';
 
-    // echo '<h2>Select Specific Pages/Posts</h2>';
-    // echo '<select id="ust_pages" name="ust_enabled_pages[]" multiple="multiple" style="width: 100%;">';
-    // $all_pages = get_posts([
-    //     'post_type' => 'any',
-    //     'numberposts' => -1,
-    //     'post_status' => 'publish',
-    // ]);
-    // foreach ($all_pages as $page) {
-    //     $selected = in_array($page->ID, $enabled_pages) ? 'selected' : '';
-    //     echo '<option value="' . esc_attr($page->ID) . '" ' . $selected . '>' . esc_html($page->post_title) . ' (' . esc_html($page->post_type) . ')</option>';
-    // }
-    // echo '</select>';
+    echo '<h2>Select Specific Pages/Posts</h2>';
+    echo '<select id="ust_pages" name="ust_enabled_pages[]" multiple="multiple" style="width: 100%;">';
+    $all_pages = get_posts([
+        'post_type' => 'any',
+        'numberposts' => -1,
+        'post_status' => 'publish',
+    ]);
+    foreach ($all_pages as $page) {
+        $selected = in_array($page->ID, $enabled_pages) ? 'selected' : '';
+        echo '<option value="' . esc_attr($page->ID) . '" ' . $selected . '>' . esc_html($page->post_title) . ' (' . esc_html($page->post_type) . ')</option>';
+    }
+    echo '</select>';
 
     echo '<br><br><input type="submit" name="ust_save_settings" class="button-primary" value="Save Settings">';
     echo '</form></div>';
