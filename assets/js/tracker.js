@@ -34,7 +34,8 @@ jQuery(document).ready(function($) {
         navigator.sendBeacon(uat_ajax.ajax_url, new URLSearchParams({
             action: 'uat_log_activity',
             user_id: uat_ajax.user_id,
-            page_id: uat_ajax.post_id,
+            page_id: uat_ajax.post_id, // may be null or invalid
+            page_url: window.location.href, // 🔥 add this
             duration: duration,
             navigation_type: navType,
             date_time: currentDateTime,
